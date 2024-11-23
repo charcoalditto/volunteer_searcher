@@ -125,9 +125,10 @@ data class VltrRealmCode(
 )
 
 data class AreaCode(
-    val gugunCd: String, //구군코드
+    val gugunCd: String, //구군코드 7자
     val gugunNm: String, //구군명
-    val sidoCd: String, //시도코드
+    val sidoCd: String, //시도코드 7자
+    val sidoNm: String, //시도명
 )
 
 data class AreaCodeRequest(
