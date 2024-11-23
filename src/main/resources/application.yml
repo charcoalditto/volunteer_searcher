@@ -8,3 +8,7 @@ management:
       exposure:
         include: "*"
 
+springdoc:
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
