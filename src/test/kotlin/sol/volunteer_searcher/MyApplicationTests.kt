@@ -6,10 +6,10 @@ import org.springframework.context.annotation.Import
 
 @Import(TestcontainersConfiguration::class)
 @SpringBootTest
-class VolunteerSearcherApplicationTests {
+class MyApplicationTests {
 
-	@Test
-	fun contextLoads() {
-	}
+    @Test
+    fun contextLoads() {
+    }
 
 }
