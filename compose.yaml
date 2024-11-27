@@ -1,10 +1,45 @@
-version: "3"
-
 networks:
   shared:
     external: true
 
 services:
+  opensearch:
+    image: opensearchproject/opensearch:2.15.0
+    platform: linux/arm64/v8
+    hostname: my-os
+    container_name: my-os
+    environment:
+      node.name: my-os
+      discovery.type: single-node
+#      discovery.seed_hosts: my-os
+#      cluster.initial_master_nodes: my-os
+      cluster.name: my-os-cluster
+      cluster.routing.allocation.disk.watermark.low: 70%           # 디스크 사용량 85%에 도달하면 경고 출력
+      cluster.routing.allocation.disk.watermark.high: 85%          # 디스크 사용량 90%에 도달하면 노드를 읽기 전용으로 설정
+      cluster.routing.allocation.disk.watermark.flood_stage: 90%   # 디스크 사용량 95%에 도달하면 모든 쓰기 작업 차단
+      cluster.info.update.interval: 1m                             # 디스크 상태 갱신 주기 (1분)
+      plugins.security.disabled: true
+    #      plugins.security.ssl.http.enabled: false
+    #      plugins.security.allow_default_init_securityindex: true
+      OPENSEARCH_JAVA_OPTS: -Xms4g -Xmx4g
+      OPENSEARCH_INITIAL_ADMIN_PASSWORD: ${OPENSEARCH_INITIAL_ADMIN_PASSWORD}
+    security_opt:
+      - seccomp:unconfined
+
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ./dev-env/opensearch/volumes/data:/usr/share/opensearch/data:rw
+      - ./dev-env/opensearch/volumes/logs:/usr/share/opensearch/logs:rw
+      - ./dev-env/opensearch/sol-init.sh:/usr/share/opensearch/sol-init.sh:rw # 초기화 스크립트를 실행할 경로
+    entrypoint: [ "/bin/sh", "-c", "/usr/share/opensearch/sol-init.sh && /usr/share/opensearch/opensearch-docker-entrypoint.sh" ]
+    ports:
+      - 9200:9200
+    networks:
+      - shared
+
   redis:
     image: redis:7.4
     hostname: my-redis

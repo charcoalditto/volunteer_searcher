@@ -6,7 +6,8 @@ build/
 !**/src/test/**/build/
 
 ### container
-volumes/
+.env
+**/volumes
 
 ### STS ###
 .apt_generated
