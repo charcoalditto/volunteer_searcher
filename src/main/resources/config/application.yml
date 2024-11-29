@@ -15,3 +15,8 @@ springdoc:
 
 datago:
   auth-key: 123
+
+my:
+  opensearch:
+    uris: localhost:9200
+

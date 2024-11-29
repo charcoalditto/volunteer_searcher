@@ -27,6 +27,7 @@ repositories {
 
 dependencies {
     implementation("org.springdoc:springdoc-openapi-starter-webflux-ui:2.6.0")
+    implementation("org.opensearch.client:opensearch-rest-high-level-client:2.15.0")
 
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
