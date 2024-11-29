@@ -1,0 +1,11 @@
+my:
+  search:
+    index-prefix: dev
+    index:
+      area-code:
+        index-name: area-code-v1
+        alias: area-code
+        aliasWritable: true
+        settings: area-code-settings.json,area-code-settings-dev.json
+        mapping: area-code-mapping.json
+

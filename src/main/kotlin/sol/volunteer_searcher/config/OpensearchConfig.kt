@@ -51,9 +51,9 @@ class OpensearchConfig {
 }
 
 data class IndexProps(
-    val indexName: String,
-    val alias: String,
-    val aliasWritable: Boolean = false,
-    val settings: List<String>? = null,
-    val mapping: String? = null,
+    var indexName: String = "indexName",
+    var alias: String = "alias",
+    var aliasWritable: Boolean = false,
+    var settings: List<String>? = null,
+    var mapping: String? = null,
 )

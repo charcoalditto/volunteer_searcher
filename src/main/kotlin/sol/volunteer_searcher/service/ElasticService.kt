@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.env.Environment
 import org.springframework.stereotype.Service
 import sol.volunteer_searcher.config.IndexProps
+import sol.volunteer_searcher.util.logger
 import sol.volunteer_searcher.util.readResource
 
 @Service
@@ -23,6 +24,8 @@ class SearchService(
     @Value("\${my.search.index-prefix:test}") private val indexPrefix: String,
     private val env: Environment,
 ) {
+    private val logger = logger()
+
     fun convertName(indexName: String) = "$indexPrefix-$indexName"
     fun getAliases(): GetAliasesResponse {
         return searchClient.indices().getAlias(GetAliasesRequest(), RequestOptions.DEFAULT)
@@ -38,6 +41,16 @@ class SearchService(
             .isAcknowledged
     }
 
+    fun prepareIndex(indexProps: IndexProps) {
+        if (existsIndex(indexProps.indexName)) {
+            logger.info("${indexProps.indexName} exists")
+            return
+        }
+
+        createIndex(indexProps)
+        logger.info("${indexProps.indexName} exists")
+    }
+
     fun createIndex(
         indexProps: IndexProps,
     ): Boolean? {
@@ -48,7 +61,7 @@ class SearchService(
             return null
         }
 
-        indexProps.settings.forEach { setting ->
+        indexProps.settings!!.forEach { setting ->
             settingsBuilder = settingsBuilder.loadFromSource(readResource("/search/$setting"), MediaTypeRegistry.JSON)
         }
 

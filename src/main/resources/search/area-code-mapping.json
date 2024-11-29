@@ -1,0 +1,28 @@
+{
+  "properties": {
+    "sidoName": {
+      "type": "keyword"
+    },
+    "sidoCode": {
+      "type": "integer"
+    },
+    "sidoChoseong": {
+      "type": "keyword"
+    },
+    "sidoDecomposition": {
+      "type": "keyword"
+    },
+    "gugunName": {
+      "type": "keyword"
+    },
+    "gugunCode": {
+      "type": "integer"
+    },
+    "gugunChoseong": {
+      "type": "keyword"
+    },
+    "gugunDecomposition": {
+      "type": "keyword"
+    }
+  }
+}
