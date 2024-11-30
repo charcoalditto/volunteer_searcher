@@ -49,3 +49,11 @@ class OpensearchConfig {
         return RestHighLevelClient(builder)
     }
 }
+
+data class IndexProps(
+    val indexName: String,
+    val alias: String,
+    val aliasWritable: Boolean = false,
+    val settings: List<String>? = null,
+    val mapping: String? = null,
+)
