@@ -1,12 +1,15 @@
 spring:
   autoconfigure:
     exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+  output:
+    ansi:
+      enabled: ALWAYS # 로그 색깔 설정
 
 management:
   endpoints:
     web:
       exposure:
-        include: "*"
+        include: "*" # actuator 설정
 
 springdoc:
   swagger-ui:
