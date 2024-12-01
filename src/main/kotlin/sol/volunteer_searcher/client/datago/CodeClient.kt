@@ -1,6 +1,7 @@
 package sol.volunteer_searcher.client.datago
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import jakarta.validation.constraints.Min
 import java.util.Optional
 import reactor.core.publisher.Mono
 import sol.volunteer_searcher.client.ClientFactory
@@ -56,6 +57,8 @@ class CodeClient(private val props: DatagoConfig.DatagoProps) {
                     .queryParam("serviceKey", props.authKey)
                     .queryParamIfPresent("schSido", request?.schSido.optionalOrEmpty())
                     .queryParamIfPresent("schGugun", request?.schGugun.optionalOrEmpty())
+                    .queryParamIfPresent("pageNo", request?.page.optionalOrEmpty())
+                    .queryParamIfPresent("numOfRows", request?.size.optionalOrEmpty())
                     .build()
             }
             .header("accept", "application/json;charset=UTF-8")
@@ -125,13 +128,16 @@ data class VltrRealmCode(
 )
 
 data class AreaCode(
-    val gugunCd: String, //구군코드 7자
+    val gugunCd: Int, //구군코드 7자
     val gugunNm: String, //구군명
-    val sidoCd: String, //시도코드 7자
+    val sidoCd: Int, //시도코드 7자
     val sidoNm: String, //시도명
 )
 
 data class AreaCodeRequest(
-    val schSido: String?,// 시도코드 ex) %ec%84%9c%ec%9a%b8(서울)
-    val schGugun: String?,// 구군명 ex) %ec%a2%85%eb%a1%9c(종로)
+    val schSido: String? = null,// 시도코드 ex) %ec%84%9c%ec%9a%b8(서울)
+    val schGugun: String? = null,// 구군명 ex) %ec%a2%85%eb%a1%9c(종로)
+    @Min(1)
+    val page: Int? = null,
+    val size: Int? = null,
 )
