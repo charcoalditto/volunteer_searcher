@@ -12,7 +12,7 @@ data class AreaCodeDoc(
     val gugunCode: Int,
     val gugunChoseong: String,
     val gugunDecomposition: String,
-) {
+) : IdGetter {
     @JsonIgnore
-    fun getId() = "${sidoCode}:${gugunCode}"
+    override fun getId() = "${sidoCode}:${gugunCode}"
 }

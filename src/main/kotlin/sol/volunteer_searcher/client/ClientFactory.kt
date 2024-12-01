@@ -38,3 +38,7 @@ val includeNullMapper: ObjectMapper = jacksonObjectMapper()
     .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
     .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
     .registerModule(JavaTimeModule())
+    .setSerializationInclusion(JsonInclude.Include.ALWAYS)
+
+fun Any.toJson(): String = mapper.writeValueAsString(this)
+fun Any.toJsonIncludeNull(): String = includeNullMapper.writeValueAsString(this)

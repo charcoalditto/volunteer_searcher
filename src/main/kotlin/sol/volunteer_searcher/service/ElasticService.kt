@@ -3,6 +3,9 @@ package sol.volunteer_searcher.service
 import org.opensearch.action.admin.indices.alias.Alias
 import org.opensearch.action.admin.indices.alias.get.GetAliasesRequest
 import org.opensearch.action.admin.indices.delete.DeleteIndexRequest
+import org.opensearch.action.bulk.BulkRequest
+import org.opensearch.action.bulk.BulkResponse
+import org.opensearch.action.index.IndexRequest
 import org.opensearch.client.GetAliasesResponse
 import org.opensearch.client.RequestOptions
 import org.opensearch.client.RestHighLevelClient
@@ -14,7 +17,9 @@ import org.opensearch.core.xcontent.MediaTypeRegistry
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.env.Environment
 import org.springframework.stereotype.Service
+import sol.volunteer_searcher.client.toJson
 import sol.volunteer_searcher.config.IndexProps
+import sol.volunteer_searcher.es.model.IdGetter
 import sol.volunteer_searcher.util.logger
 import sol.volunteer_searcher.util.readResource
 
@@ -73,6 +78,18 @@ class SearchService(
         return searchClient.indices()
             .create(request, RequestOptions.DEFAULT)
             .isAcknowledged
+    }
+
+    fun insert(indexName: String, docs: List<IdGetter>): BulkResponse {
+        val request = BulkRequest()
+        docs.forEach { doc ->
+            request.add(
+                IndexRequest(convertName(indexName))
+                    .id(doc.getId())
+                    .source(doc.toJson(), MediaTypeRegistry.JSON)
+            )
+        }
+        return searchClient.bulk(request, RequestOptions.DEFAULT)
     }
 }
 
