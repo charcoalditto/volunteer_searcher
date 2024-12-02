@@ -16,6 +16,7 @@ class AreaCodeScheduler(
         fixedRate = 1000 * 60 * 60 * 24, // 하루에 1번
         initialDelay = 0,
     )
+//    @SchedulerLock() TODO:
     fun updateAreaCode() = runBlocking {
         logger.info("refresh start")
         service.update()

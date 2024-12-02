@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory
 
 
 inline fun <reified T> T.logger(): ColorfulLogger {
-    return ColorfulLogger(LoggerFactory.getLogger("@@-" + T::class.simpleName))
+    return ColorfulLogger(LoggerFactory.getLogger(T::class.java.name + "#@@"))
 }
 
 class ColorfulLogger(private val logger: Logger) {

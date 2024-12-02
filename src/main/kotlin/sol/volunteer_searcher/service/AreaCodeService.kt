@@ -19,7 +19,7 @@ class AreaCodeService(
     private val searchService: SearchService
 ) {
     private val logger = logger()
-    private val chunkSize = 100
+    private val chunkSize = 1000
 
     @PostConstruct
     fun init() {

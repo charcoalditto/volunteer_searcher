@@ -9,3 +9,8 @@ my:
         settings: area-code-settings.json,area-code-settings-dev.json
         mapping: area-code-mapping.json
 
+logging:
+  level:
+    root: info
+    sol.volunteer_searcher: debug
+
