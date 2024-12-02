@@ -49,5 +49,6 @@ class CodeClientTest {
             ?.getOrNull()
 
         Assertions.assertTrue((response?.totalCount ?: 0) > 0)
+        Assertions.assertTrue(response?.items?.item?.first()?.gugunNm != null)
     }
 }

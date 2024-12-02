@@ -1,6 +1,7 @@
 package sol.volunteer_searcher.client.datago
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.convertValue
 import jakarta.validation.constraints.Min
 import java.util.Optional
 import reactor.core.publisher.Mono
@@ -41,7 +42,7 @@ class CodeClient(private val props: DatagoConfig.DatagoProps) {
             .header("accept", "application/json;charset=UTF-8")
             .request<CodeResponse>()
             .map {
-                mapper.convertAny<CodeResponse.Body<VltrRealmCode>>(it.response.body)
+                mapper.convertValue<CodeResponse.Body<VltrRealmCode>>(it.response.body)
                     .optionalOrEmpty()
             }
     }
@@ -64,7 +65,7 @@ class CodeClient(private val props: DatagoConfig.DatagoProps) {
             .header("accept", "application/json;charset=UTF-8")
             .request<CodeResponse>()
             .map {
-                mapper.convertAny<CodeResponse.Body<AreaCode>>(it.response.body)
+                mapper.convertValue<CodeResponse.Body<AreaCode>>(it.response.body)
                     .optionalOrEmpty()
             }
     }
@@ -102,20 +103,20 @@ data class CodeResponse(
     )
 
     data class BodyAny(
-        override val items: Items?,
+        override val items: Items<Any>?,
         override val numOfRows: Int?,
         override val pageNo: Int?,
         override val totalCount: Int?,
     ) : Body<Any>(items, numOfRows, pageNo, totalCount)
 
     open class Body<T>(
-        open val items: Items?,
+        open val items: Items<T>?,
         open val numOfRows: Int?, // 2 옵 10 한 페이지 결과 수
         open val pageNo: Int?, // 5 옵 1 페이지 번호
         open val totalCount: Int?, // 7 옵 3 전체 결과 수
     ) {
-        data class Items(
-            val item: List<Any>?,
+        data class Items<T>(
+            val item: List<T>?,
         )
     }
 }
