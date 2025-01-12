@@ -67,6 +67,7 @@ class CodeClient(private val props: DatagoConfig.DatagoProps) {
             .map {
                 mapper.convertValue<CodeResponse.Body<AreaCode>>(it.response.body)
                     .optionalOrEmpty()
+                // 주의 : 테이터가 없을때 없을때 {"items":""} ..ㅋㅋㅋㅋ
             }
     }
 }
@@ -111,7 +112,7 @@ data class CodeResponse(
 
     open class Body<T>(
         open val items: Items<T>?,
-        open val numOfRows: Int?, // 2 옵 10 한 페이지 결과 수
+        open val numOfRows: Int?, // 내가 요청한 한 페이지 사이즈. 문서상 페이지 결과 수
         open val pageNo: Int?, // 5 옵 1 페이지 번호
         open val totalCount: Int?, // 7 옵 3 전체 결과 수
     ) {
