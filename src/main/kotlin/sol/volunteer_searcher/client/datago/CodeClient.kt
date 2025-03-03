@@ -37,6 +37,8 @@ class CodeClient(private val props: DatagoConfig.DatagoProps) {
                     .queryParamIfPresent("clsType", request?.clsType.optionalOrEmpty())
                     .queryParamIfPresent("hignClsNm", request?.hignClsNm.optionalOrEmpty())
                     .queryParamIfPresent("lowClsNm", request?.lowClsNm.optionalOrEmpty())
+                    .queryParamIfPresent("pageNo", request?.page.optionalOrEmpty())
+                    .queryParamIfPresent("numOfRows", request?.size.optionalOrEmpty())
                     .build()
             }
             .header("accept", "application/json;charset=UTF-8")
@@ -78,11 +80,14 @@ inline fun <reified T> ObjectMapper.convertAny(value: Any): T {
 
 data class VltrRealmCodeRequest(
     /** 상위/하위 구분 */
-    val clsType: ClsType?,
+    val clsType: ClsType? = null,
     /** 상위분류코드명 */
-    val hignClsNm: String?,
+    val hignClsNm: String? = null,
     /** 하위분류코드명 */
-    val lowClsNm: String?,
+    val lowClsNm: String? = null,
+    @Min(1)
+    val page: Int? = null,
+    val size: Int? = null,
 ) {
     enum class ClsType {
         A, // 상위 코드
